@@ -193,16 +193,30 @@ while True:
                 i.show_info()
             while True:
                 c=0
-                acc1=input("Выберите аккаунт:")      
-                acc2=input("Выберите куда перевести:")
+                while True:
+                    acc1=input("Выберите аккаунт:")
+                    while True:
+                        for i in accounts:
+                            if i.name==acc1:
+                                sender=i.name
+                                c=2
+                            else:
+                                print("Такого аккаунта нет")
+                        if c==2:
+                            break
+                    acc2=input("Выберите куда перевести:")     
+                    while True:
+                        for i in accounts:
+                            if i.name==acc1:
+                                receiver=i.name
+                                c=3
+                            else:
+                                print("Такого аккаунта нет")
+                        if c==3:
+                            break
                 if acc1==acc2:
                     print("Нельзя переводить самому себе!!!","Выберите другой аккаунт",sep="\n")
                 else:
-                    for i in accounts:
-                        if i.name==acc1:
-                            sender=i
-                        if i.name==acc2:
-                            receiver=i
                     c=1
                 if c==1:
                     break
