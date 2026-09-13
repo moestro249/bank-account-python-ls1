@@ -21,10 +21,13 @@ class BankAccount:
             print("Итог:",self.money)
     
     def transfer(self,other,mon):
-        self.money-=mon
-        print(self.name,self.money,sep="\n")
-        other.money+=mon
-        print(other.name, other.money,sep='\n')
+        if self.money<mon:
+            print("Невозможно провести операцию")
+        else:
+            self.money-=mon
+            print(self.name,self.money,sep="\n")
+            other.money+=mon
+            print(other.name, other.money,sep='\n')
     
 def save_accounts(accounts):
     
