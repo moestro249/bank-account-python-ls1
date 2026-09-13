@@ -28,7 +28,9 @@ class BankAccount:
             print(self.name,self.money,sep="\n")
             other.money+=mon
             print(other.name, other.money,sep='\n')
-    
+            his=[self.name, '-', mon, other.name, '+', mon]
+            history.append(his)
+        
 def save_accounts(accounts):
     
     users=[]
@@ -70,6 +72,7 @@ def create_account():
     return account
 
 accounts=[]
+history=[]
 
 while True:
     try:
@@ -87,7 +90,7 @@ while True:
     
     accounts=load_accounts()
     
-    print("Выбирите действие:","1. увеличить баланс","2. уменьшить баланс","3. Инфо","4. создать акк","5. Перевести деньги","6. Показать аккаунты","7. Сохранить аккаунты","8. вывести сохраненные аккаунты","9. Выход",sep="\n")
+    print("Выбирите действие:","1. Увеличить баланс","2. Уменьшить баланс","3. Инфо","4. Создать акк","5. Перевести деньги","6. Показать аккаунты","7. Сохранить аккаунты","8. Вывести сохраненные аккаунты","9. Посмотреть историю","10. Выход",sep="\n")
     
     ans=int(input())
     #1. увеличить баланс
@@ -226,6 +229,11 @@ while True:
             i.show_info()
     #9. Выход
     elif ans==9:
+        if not history:
+            print("Пока ничего небыло")
+        else:
+            print(history)
+    elif ans==10:
         break
     #
     else:
