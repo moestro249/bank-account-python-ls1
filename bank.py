@@ -185,16 +185,21 @@ while True:
             
             for i in accounts:
                 i.show_info()
-                
-            acc1=input("Выберите аккаунт:")
-                    
-            acc2=input("Выберите куда перевести:")
-            
-            for i in accounts:
-                if i.name==acc1:
-                    sender=i
-                if i.name==acc2:
-                    receiver=i
+            while True:
+                c=0
+                acc1=input("Выберите аккаунт:")      
+                acc2=input("Выберите куда перевести:")
+                if acc1==acc2:
+                    print("Нельзя переводить самому себе!!!","Выберите другой аккаунт",sep="\n")
+                else:
+                    for i in accounts:
+                        if i.name==acc1:
+                            sender=i
+                        if i.name==acc2:
+                            receiver=i
+                    c=1
+                if c==1:
+                    break
             mon=int(input("Введите сумму перевода:"))
             
             sender.transfer(receiver,mon)
