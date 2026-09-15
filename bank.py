@@ -19,9 +19,6 @@ class BankAccount:
         }
         
         history.append(his)
-        
-        # with open("history.json","w") as file:
-        #     json.dump(history, file)
             
     def withdraw(self,a):
         if self.money-a<0:
@@ -36,9 +33,6 @@ class BankAccount:
             }
             
             history.append(his)
-            
-            # with open("history.json","w") as file:
-            #     json.dump(history, file)
                 
     def transfer(self,other,mon):
         if self.money<mon:
@@ -59,11 +53,7 @@ class BankAccount:
                 "получил":other.money-y
             }
             
-            history.append(his)
-            
-            # with open("history.json","w") as file:
-            #     json.dump(history, file)
-            
+            history.append(his)          
         
 def save_accounts(accounts):
     
@@ -296,8 +286,8 @@ while True:
     elif ans==10:
         with open("history.json","r") as file:
             for i in file:
-                print(i,\n)
-    #10. Выход
+                print(i, end='\n')
+    #11. Выход
     elif ans==11:
         save_accounts(accounts)
         with open("history.json","w") as file:
