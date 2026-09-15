@@ -10,26 +10,60 @@ class BankAccount:
         print(self.money)
         
     def deposit(self,a):
+        y=self.money
         self.money+=a
         print("Итог:",self.money)
+        his={
+            "Name":self.name,
+            "Deposit":(self.money-y)
+        }
         
+        history.append(his)
+        
+        # with open("history.json","w") as file:
+        #     json.dump(history, file)
+            
     def withdraw(self,a):
         if self.money-a<0:
             print("Невозможно снять сумму")
         else:
+            y=self.money
             self.money-=a
             print("Итог:",self.money)
-    
+            his={
+                "Name":self.name,
+                "Withdraw":y-self.money
+            }
+            
+            history.append(his)
+            
+            # with open("history.json","w") as file:
+            #     json.dump(history, file)
+                
     def transfer(self,other,mon):
         if self.money<mon:
             print("Невозможно провести операцию")
         else:
+            a=self.money
+            y=other.money
+            
             self.money-=mon
             print(self.name,self.money,sep="\n")
             other.money+=mon
             print(other.name, other.money,sep='\n')
-            his=[self.name, '-', mon, other.name, '+', mon]
+            
+            his={
+                "Name1":self.name,
+                "перевел":a-self.money,
+                "Name2":other.name,
+                "получил":other.money-y
+            }
+            
             history.append(his)
+            
+            # with open("history.json","w") as file:
+            #     json.dump(history, file)
+            
         
 def save_accounts(accounts):
     
@@ -90,7 +124,7 @@ while True:
     
     accounts=load_accounts()
     
-    print("Выбирите действие:","1. Увеличить баланс","2. Уменьшить баланс","3. Инфо","4. Создать акк","5. Перевести деньги","6. Показать аккаунты","7. Сохранить аккаунты","8. Вывести сохраненные аккаунты","9. Посмотреть историю","10. Выход",sep="\n")
+    print("Выбирите действие:","1. Увеличить баланс","2. Уменьшить баланс","3. Инфо","4. Создать акк","5. Перевести деньги","6. Показать аккаунты","7. Сохранить аккаунты","8. Вывести сохраненные аккаунты","9. Посмотреть историю","10. Посмтореть полную историю","11. Выход",sep="\n")
     
     ans=int(input())
     #1. увеличить баланс
@@ -109,6 +143,7 @@ while True:
                             answer=int(input("Введите сумму:"))
                             if answer>0:
                                 i.deposit(answer)
+                                save_accounts(accounts)
                                 c=1
                                 break
                             else:
@@ -135,6 +170,7 @@ while True:
                             answer=int(input("Введите сумму:"))
                             if answer>0:
                                 i.withdraw(answer)
+                                save_accounts(accounts)
                                 c=1
                                 break
                             else:
@@ -201,25 +237,27 @@ while True:
                 c=0
                 while True:
                     acc1=input("Выберите аккаунт:")
-                    while True:
-                        for i in accounts:
-                            if i.name==acc1:
-                                sender=i.name
-                                c=2
-                            else:
-                                print("Такого аккаунта нет")
-                        if c==2:
+                    for i in accounts:
+                        if i.name==acc1:
+                            sender=i
+                            c=2
                             break
-                    acc2=input("Выберите куда перевести:")     
-                    while True:
-                        for i in accounts:
-                            if i.name==acc1:
-                                receiver=i.name
-                                c=3
-                            else:
-                                print("Такого аккаунта нет")
-                        if c==3:
+                    else:
+                        print("Такого аккаунта нет")
+                    if c==2:
+                        break
+                                
+                while True:
+                    acc2=input("Выберите куда перевести:") 
+                    for j in accounts:
+                        if j.name==acc2:
+                            receiver=j
+                            c=3
                             break
+                    else:
+                        print("Такого аккаунта нет")
+                    if c==3:
+                        break
                 if acc1==acc2:
                     print("Нельзя переводить самому себе!!!","Выберите другой аккаунт",sep="\n")
                 else:
@@ -229,6 +267,7 @@ while True:
             mon=int(input("Введите сумму перевода:"))
             
             sender.transfer(receiver,mon)
+            save_accounts(accounts)
         else:
             print("Некому переводить(создайте аккаунт)")
     #6. Показать аккаунты
@@ -247,13 +286,22 @@ while True:
         accounts=load_accounts()
         for i in accounts:
             i.show_info()
-    #9. Выход
+    #9. история
     elif ans==9:
         if not history:
             print("Пока ничего небыло")
         else:
             print(history)
+            
     elif ans==10:
+        with open("history.json","r") as file:
+            for i in file:
+                print(i,\n)
+    #10. Выход
+    elif ans==11:
+        save_accounts(accounts)
+        with open("history.json","w") as file:
+            json.dump(history, file)
         break
     #
     else:
