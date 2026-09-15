@@ -107,9 +107,12 @@ while True:
                     while True:
                         try:
                             answer=int(input("Введите сумму:"))
-                            i.deposit(answer)
-                            c=1
-                            break
+                            if answer>0:
+                                i.deposit(answer)
+                                c=1
+                                break
+                            else:
+                                print("Введена неверная сумма")
                         except ValueError:
                             print("Введены неправильные данные")
                     break
@@ -130,9 +133,12 @@ while True:
                     while True:
                         try:
                             answer=int(input("Введите сумму:"))
-                            i.withdraw(answer)
-                            c=1
-                            break
+                            if answer>0:
+                                i.withdraw(answer)
+                                c=1
+                                break
+                            else:
+                                print("Введена неверная сумма")
                         except ValueError:
                             print("Введены неправильные данные")
                     break
